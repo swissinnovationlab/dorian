@@ -1,0 +1,59 @@
+services:
+  devconn_connector:
+    image: smartlockertec/devconn_connector:v1.0.2
+    container_name: devconn_connector
+    env_file:
+      - devconn.env
+    environment:
+      CFG_TELEMETRY_PERIOD: 15
+      CFG_CONNECTION_INTERMITTENT: false
+    restart: unless-stopped
+    network_mode: "host"
+
+  pyzer_api_server:
+    image: smartlockertec/pyzer_api_server:v1.1.1
+    container_name: pyzer_api_server
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - dorian_local_share:/root/.local/share
+
+  pyzer_entity_manager:
+    image: smartlockertec/pyzer_entity_manager:v1.1.1
+    container_name: pyzer_entity_manager
+    restart: unless-stopped
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - /run/udev/control:/run/udev/control
+      - dorian_local_share:/root/.local/share
+
+  pyflexen_engine:
+    image: smartlockertec/pyflexen_engine:v1.2.1
+    container_name: pyflexen_engine
+    restart: unless-stopped
+    network_mode: "host"
+    volumes:
+      - dorian_local_share:/root/.local/share
+
+  goxmler_app_residential:
+    image: smartlockertec/goxmler_app_residential:v1.0.0
+    container_name: goxmler_app_residential
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - REMOTE_IP=127.0.0.1
+      - DISPLAY=:0
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - dorian_local_share:/root/.local/share
+    devices:
+      - "/dev/dri:/dev/dri"
+    profiles: [residential] 
+
+volumes:
+  dorian_local_share:
+    external: true
+    name: "dorian_local_share"
