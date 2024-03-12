@@ -11,38 +11,32 @@ Log into target device over LAN or VPN.
 
 ```sh
 $ cd ~
-$ git clone https://github.com/swissinnovationlab/dorian_builder.git
-$ mv ~/dorian_builder/*.sh ~/
-$ mv ~/dorian_builder/*.yml ~/
-$ chmod +x *.sh
+$ git clone https://github.com/swissinnovationlab/dorian.git
+$ chmod +x ~/dorian/*.sh
+$ cp ~/dorian/*.sh ~/
+$ cp ~/dorian/*.yml ~/
 ```
 
-### 1. Preinstall Docker
-
-On Debian devices:
-
-```sh
-$ docker_install_debian.sh
-```
-Continue to next step.
-
-On Arch devices:
-```sh
-$ docker_install_arch.sh
-$ logout
-```
-Login again.
-Continue to next step.
-
-### 2. Migrate
-
-Before installing, run
+Before continuing, run
 
 ```sh
 $ sudo ls .
 ```
 
 to prevent Linux from asking for sudo password during installation.
+
+### 1. Preinstall Docker
+
+Run:
+
+```sh
+$ gray_install_docker.sh
+```
+
+If running from an Arch device, you will be prompted to logout and login.
+Failure to do so will prevent the installtion 
+
+### 2. Migrate
 
 If installing on a device _**with no screen**_, run:
 
