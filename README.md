@@ -34,7 +34,7 @@ $ gray_install_docker.sh
 ```
 
 If running from an Arch device, you will be prompted to logout and login.
-Failure to do so will prevent the installtion 
+Failure to do so will prevent the installation from continuing normally.
 
 ### 2. Migrate
 
