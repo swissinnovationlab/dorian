@@ -91,6 +91,7 @@ migrate_data () {
     echo "-- Migrating data to docker volume --"
     DOCKER_VOLUME=$(grep -E "^volume" -A 5 docker-compose.yml | grep "name" | cut -d : -f2 | awk -F\" '{print $2}')
     docker volume create $DOCKER_VOLUME
+    DOCKER_MOUNT_POINT="/var/lib/docker/volumes/$DOCKER_VOLUME/_data/"
     chmod +x ./gray_migrate_data.sh
     ./gray_migrate_data.sh $USER $DOCKER_MOUNT_POINT
     chmod -x ./gray_migrate_data.sh
