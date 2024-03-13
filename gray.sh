@@ -19,10 +19,10 @@ set_ui () {
     sed -i "/^COMPOSE_PROFILES/d" $PROFILE_STORAGE_FILE
     if [ ! -z $RESIDENTIAL ]; then
         echo "[UI:] Residential"
-        echo -e "COMPOSE_PROFILES=residential\n" >> $PROFILE_STORAGE_FILE
+        echo -e "COMPOSE_PROFILES=residential" >> $PROFILE_STORAGE_FILE
     elif [ ! -z $PORSCHE ]; then
         echo "[UI:] Porsche"
-        echo -e "COMPOSE_PROFILES=porsche\n" >> $PROFILE_STORAGE_FILE
+        echo -e "COMPOSE_PROFILES=porsche" >> $PROFILE_STORAGE_FILE
     else
         echo "[UI:] n/a"
     fi
