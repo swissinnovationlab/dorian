@@ -1,39 +1,36 @@
 #!/bin/bash
 
-# mode switches
-INTERACTIVE=
-INSTALL_DOCKER=
-
 # credentials
 DEVICE_ID=
 API_KEY=
 
 # UI selector
-RESIDENTIAL=
-PORSCHE=
+UI=
+RESIDENTIAL="RESIDENTIAL"
+PORSCHE="PORSCHE"
 
-# storage
-PROFILE_STORAGE_FILE=~/.bashrc
+# Runtime parameters
 
 set_ui () {
-    sed -i "/^COMPOSE_PROFILES/d" $PROFILE_STORAGE_FILE
-    if [ ! -z $RESIDENTIAL ]; then
+    sed -i "/^COMPOSE_PROFILES/d" ~/.bashrc
+    if [ $UI == $RESIDENTIAL ]; then
         echo "[UI:] Residential"
-        echo "COMPOSE_PROFILES=residential" >> $PROFILE_STORAGE_FILE
-    elif [ ! -z $PORSCHE ]; then
+        echo "COMPOSE_PROFILES=residential" >> ~/.bashrc
+    elif [ $UI == $PORSCHE ]; then
         echo "[UI:] Porsche"
-        echo "COMPOSE_PROFILES=porsche" >> $PROFILE_STORAGE_FILE
+        echo "COMPOSE_PROFILES=porsche" >> ~/.bashrc
     else
         echo "[UI:] n/a"
     fi
-    source $PROFILE_STORAGE_FILE
+    source ~/.bashrc
+    unset UI
 }
 
 set_device_id () {
     touch ~/devconn.env
     if [ ! -z $DEVICE_ID ]; then
         sed -i "/^DMP_DEVICE_ID/d" ~/devconn.env
-        echo -e "DMP_DEVICE_ID=$DEVICE_ID\n" >> ~/devconn.env
+        echo "DMP_DEVICE_ID=$DEVICE_ID" >> ~/devconn.env
     fi
 }
 
@@ -41,7 +38,7 @@ set_api_key () {
     touch ~/devconn.env
     if [ ! -z $API_KEY ]; then
         sed -i "/^DMP_API_KEY/d" ~/devconn.env
-        echo -e "DMP_API_KEY=$API_KEY\n" >> ~/devconn.env
+        echo "DMP_API_KEY=$API_KEY" >> ~/devconn.env
     fi
 }
 
@@ -50,13 +47,8 @@ usage () {
     exit 1
 }
 
-#interact () {
-    #echo "Menu goes here"
-    #echo "--------------"
-#}
-
 stop_loytra () {
-    IS_LOYTRA_AVAILABLE = $(ls ~/.local/bin/loytra | wc -l)
+    IS_LOYTRA_AVAILABLE=$(ls ~/.local/bin/loytra | wc -l)
     if [ $IS_LOYTRA_AVAILABLE -eq 1 ]; then
         echo "-- Stopping loytra processes --"
         loytra disable devconn_vpn_client/handler
@@ -69,7 +61,7 @@ stop_loytra () {
 }
 
 disable_loytra () {
-    IS_LOYTRA_PYTHON = $(grep "#!/" ~/.local/bin/loytra | grep python | wc -l)
+    IS_LOYTRA_PYTHON=$(grep "#!/" ~/.local/bin/loytra | grep python | wc -l)
     if [ $IS_LOYTRA_PYTHON -eq 1 ]; then
         mv ~/.local/bin/loytra ~/.local/bin/loytra-rip
         echo -e '#!/bin/sh\necho "loytra no longer used on this device, check dorian documentation"' > ~/.local/bin/loytra && chmod +x ~/.local/bin/loytra
@@ -97,8 +89,16 @@ migrate_data () {
     echo "-- Migrating data to docker volume --"
     DOCKER_VOLUME=$(grep -E "^volume" -A 5 docker-compose.yml | grep "name" | cut -d : -f2 | awk -F\" '{print $2}')
     docker volume create $DOCKER_VOLUME
-
+    chmod +x ./gray_migrate_data.sh
     ./gray_migrate_data.sh $USER $DOCKER_MOUNT_POINT
+    chmod -x ./gray_migrate_data.sh
+}
+
+install_dorian () {
+    echo "= dorian installer ="
+    echo "--------------------"
+    vpn_up
+    main_up
 }
 
 migrate () {
@@ -107,24 +107,16 @@ migrate () {
     stop_loytra
     disable_loytra
     migrate_dmp
-    vpn_up
-    main_up
-}
-
-automate () {
-    echo "automatic setup here"
-    echo "--------------------"
-    set_device_id
-    set_api_key
-    set_ui
+    migrate_data
 }
 
 update () {
     RETURN_PATH=$(pwd)
     cd ~/dorian
+    git restore *
     git pull
     chmod +x *.sh
-    cp *.sh ~/
+    cp gray*.sh ~/
     cp *.yml ~/
     cd $RETURN_PATH
     unset -v RETURN_PATH
@@ -133,10 +125,13 @@ update () {
 # Docker operations
 
 install_docker () {
+    chmod +x ./gray_install_docker.sh
     ./gray_install_docker.sh
     if [ $? -ne 0 ]; then
+        chmod -x ./gray_install_docker.sh
         exit 1
     fi
+    chmod -x ./gray_install_docker.sh
 }
 
 main_down () {
@@ -146,7 +141,7 @@ main_down () {
 
 main_up () {
     echo "-- Main container going up --"
-    source PROFILE_STORAGE_FILE
+    source ~/.bashrc
     docker compose up --build -d
 }
 
@@ -169,19 +164,24 @@ vpn_up () {
 
 # switchology
 
-while getopts "acdDmMprvV?": opt; do
+while getopts "a:cd:DigmMnpruvV?": opt; do
     case $opt in
-    a) API_KEY="$OPTARG";;
-    c) migrate;;
-    d) DEVICE_ID="$OPTARG";;
+    a) API_KEY="$OPTARG"
+       set_api_key;;
+    c) migrate
+       install_dorian;;
+    d) DEVICE_ID="$OPTARG"
+       set_device_id;;
     D) install_docker;;
-#    i) interactive;;
-#    probably turn this into install instead
-    g) set_ui;;
+    i) install_dorian;;
     m) main_down;;
     M) main_up;;
-    p) PORSCHE=true;;
-    r) RESIDENTIAL=true;;
+    n) unset UI
+       set_ui;;
+    p) UI=$PORSCHE;;
+       set_ui;;
+    r) UI=$RESIDENTIAL
+       set_ui;;
     u) update;;
     v) vpn_down;;
     V) vpn_up;;
