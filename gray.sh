@@ -175,6 +175,7 @@ while getopts "acdDmMprvV?": opt; do
     D) install_docker;;
 #    i) interactive;;
 #    probably turn this into install instead
+    g) set_ui;;
     m) main_down;;
     M) main_up;;
     p) PORSCHE=true;;
