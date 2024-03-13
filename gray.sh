@@ -30,6 +30,7 @@ set_ui () {
 }
 
 set_device_id () {
+    touch ~/devconn.env
     if [ ! -z $DEVICE_ID ]; then
         sed -i "/^DMP_DEVICE_ID/d" ~/devconn.env
         echo -e "DMP_DEVICE_ID=$DEVICE_ID\n" >> ~/devconn.env
@@ -37,6 +38,7 @@ set_device_id () {
 }
 
 set_api_key () {
+    touch ~/devconn.env
     if [ ! -z $API_KEY ]; then
         sed -i "/^DMP_API_KEY/d" ~/devconn.env
         echo -e "DMP_API_KEY=$API_KEY\n" >> ~/devconn.env
