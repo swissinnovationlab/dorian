@@ -1,7 +1,8 @@
 
-# dorian
+# dorian/gray
 
-Docker toolset for managing Pyzer Docker-powered installations
+* Dorian - Pyzer docker-packaged installation
+* Gray - CLI tool for managing Dorian
 
 ## Migration process
 
@@ -25,7 +26,7 @@ $ sudo ls .
 
 to prevent Linux from asking for sudo password during installation.
 
-### 1. Preinstall Docker
+### 1. Preinstall docker
 
 Run:
 
@@ -49,7 +50,7 @@ $ gray.sh -c
 * stop `loytra` processes (except for VPN)
 * disable `loytra` command so it can no longer be executed
 * migrate DMP data from the loytra storage to `~/devconn.env`
-* migrate resources and flows from the loytra storage to the `dorian`
+* migrate resources and flows from the loytra storage to `dorian`'s docker volume
 
 If installing on a device _**running Residential UI**_, run:
 
