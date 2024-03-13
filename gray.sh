@@ -170,7 +170,7 @@ vpn_up () {
 while getopts "acdDmMprvV?": opt; do
     case $opt in
     a) API_KEY="$OPTARG";;
-    c) migrate
+    c) migrate;;
     d) DEVICE_ID="$OPTARG";;
     D) install_docker;;
 #    i) interactive;;
