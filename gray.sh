@@ -137,18 +137,18 @@ install_docker () {
     fi
 }
 
-main_down {
+main_down () {
     echo "-- Main container going down --"
     docker compose down
 }
 
-main_up {
+main_up () {
     echo "-- Main container going up --"
     source PROFILE_STORAGE_FILE
     docker compose up --build -d
 }
 
-vpn_down {
+vpn_down () {
     TUN_ADDR=$(ip addr | grep tun | grep scope | cut -f 6 -d " " | cut -f1-3 -d ".")
     USER_ADDR=$(who am i | cut -f 2 -d "(" | cut -f1-3 -d ".")
     if [ $TUN_ADDR == $USER_ADDR ]; then
@@ -160,11 +160,12 @@ vpn_down {
     docker compose -f docker-compose-vpn.yml down
 }
 
-vpn_up {
+vpn_up () {
     echo "-- VPN going up --"
     docker compose -f docker-compose-vpn.yml up --build -d
 }
 
+# switchology
 
 while getopts "acdDmMprvV?": opt; do
     case $opt in
