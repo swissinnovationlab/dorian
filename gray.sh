@@ -171,7 +171,7 @@ while getopts "acdDmMprvV?": opt; do
     a) API_KEY="$OPTARG";;
     c) migrate
     d) DEVICE_ID="$OPTARG";;
-    D) INSTALL_DOCKER=true;;
+    D) install_docker;;
 #    i) interactive;;
 #    probably turn this into install instead
     m) main_down;;
