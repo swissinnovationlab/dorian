@@ -13,12 +13,14 @@ PORSCHE="PORSCHE"
 
 set_ui () {
     sed -i "/^COMPOSE_PROFILES/d" ~/.bashrc
-    if [ $UI == $RESIDENTIAL ]; then
-        echo "[UI:] Residential"
-        echo "COMPOSE_PROFILES=residential" >> ~/.bashrc
-    elif [ $UI == $PORSCHE ]; then
-        echo "[UI:] Porsche"
-        echo "COMPOSE_PROFILES=porsche" >> ~/.bashrc
+    if [ ! -z $UI ]; then
+        if [ $UI == $RESIDENTIAL ]; then
+            echo "[UI:] Residential"
+            echo "COMPOSE_PROFILES=residential" >> ~/.bashrc
+        elif [ $UI == $PORSCHE ]; then
+            echo "[UI:] Porsche"
+            echo "COMPOSE_PROFILES=porsche" >> ~/.bashrc
+        fi
     else
         echo "[UI:] n/a"
     fi
