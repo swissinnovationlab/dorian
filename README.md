@@ -31,7 +31,7 @@ to prevent Linux from asking for sudo password during installation.
 Run:
 
 ```sh
-$ gray.sh -D
+$ ./gray.sh -D
 ```
 
 If running from an Arch device, you will be prompted to logout and login.
@@ -42,7 +42,7 @@ Failure to do so will prevent the installation from continuing normally.
 If installing on a device _**with no screen**_, run:
 
 ```sh
-$ gray.sh -c
+$ ./gray.sh -c
 ```
 
 `gray` will:
@@ -55,7 +55,7 @@ $ gray.sh -c
 If installing on a device _**running Residential UI**_, run:
 
 ```sh
-$ gray.sh -r -c
+$ ./gray.sh -r -c
 ```
 
 Before running the conversion, `gray` will place a variable in the `~/.bashrc` file marking which UI is needed. When docker detects that variable, it will start the appropriate UI. If the variable does not exist, no UI is started.
@@ -65,13 +65,13 @@ Before running the conversion, `gray` will place a variable in the `~/.bashrc` f
 Start the VPN container by running:
 
 ```sh
-$ gray.sh -V
+$ ./gray.sh -V
 ```
 
 Start the core container by running:
 
 ```sh
-$ gray.sh -M
+$ ./gray.sh -M
 ```
 
 ## Maintenance cookbook
