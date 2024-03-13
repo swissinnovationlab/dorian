@@ -178,7 +178,7 @@ while getopts "a:cd:DigmMnpruvV?": opt; do
     M) main_up;;
     n) unset UI
        set_ui;;
-    p) UI=$PORSCHE;;
+    p) UI=$PORSCHE
        set_ui;;
     r) UI=$RESIDENTIAL
        set_ui;;
