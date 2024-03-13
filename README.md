@@ -12,7 +12,7 @@ Log into target device over LAN or VPN.
 ```sh
 $ cd ~
 $ git clone https://github.com/swissinnovationlab/dorian.git
-$ chmod +x ~/dorian/*.sh
+$ chmod +x ~/dorian/gray.sh
 $ cp ~/dorian/*.sh ~/
 $ cp ~/dorian/*.yml ~/
 ```
@@ -30,29 +30,48 @@ to prevent Linux from asking for sudo password during installation.
 Run:
 
 ```sh
-$ gray_install_docker.sh
+$ gray.sh -D
 ```
 
 If running from an Arch device, you will be prompted to logout and login.
 Failure to do so will prevent the installation from continuing normally.
 
-# WORK IN PROGRESS
-
-### 2. Migrate
+### 2. Convert from loytra to dorian
 
 If installing on a device _**with no screen**_, run:
 
 ```sh
-$ ./migrate.sh
+$ gray.sh -c
 ```
+
+`gray` will:
+
+* stop `loytra` processes (except for VPN)
+* disable `loytra` command so it can no longer be executed
+* migrate DMP data from the loytra storage to `~/devconn.env`
+* migrate resources and flows from the loytra storage to the `dorian`
 
 If installing on a device _**running Residential UI**_, run:
 
 ```sh
-$ ./migrate.sh -r
+$ gray.sh -r -c
 ```
 
-The process should automatically migrate the existing resources and flows and start the containerized installation.
+Before running the conversion, `gray` will place a variable in the `~/.bashrc` file marking which UI is needed. When docker detects that variable, it will start the appropriate UI. If the variable does not exist, no UI is started.
+
+### 3. Start
+
+Start the VPN container by running:
+
+```sh
+$ gray.sh -V
+```
+
+Start the core container by running:
+
+```sh
+$ gray.sh -M
+```
 
 ## Maintenance cookbook
 
@@ -62,46 +81,33 @@ The process should automatically migrate the existing resources and flows and st
 $ docker ps
 ```
 
-### Stopping VPN container
+### Stopping and starting VPN container
 
-⚠⚠⚠ If run over an active VPN connection it will make the device unreachable.
-Do this operation only if connected via LAN.
+⚠ The VPN container cannot be stopped if you're connected over VPN.
 
-```sh
-$ docker compose -f docker_compose_vpn.yml down
-```
+* `$ ./gray.sh -V` (uppercase V) - start
+* `$ ./gray.sh -v` (lowercase V) - stop
 
-### Starting VPN container
+### Stopping and starting main container
 
-```sh
-$ docker compose -f docker_compose_vpn.yml up --build -d
-```
-
-### Stopping main container
-
-```sh
-$ docker compose down
-```
-
-### Starting main container
-
-```sh
-$ docker compose up --build -d
-```
+* `$ ./gray.sh -M` (uppercase M) - start
+* `$ ./gray.sh -m` (lowercase m) - stop
 
 ### Changing running UI on device
 
-The `docker_compose.yml` services may optionally contain a `profiles: [..., ...]` descriptor.
-A service may have zero profiles, or one or more profiles stored in an array.
-Services that do not have a profile are _always_ started.
-Services that have a profile are started if the `docker compose --profile <descriptor here> up` command is used.
+⚠ Always stop the main container first before changing the UI.
 
-Alternatively, the `COMPOSE_PROFILES=profile1,profile2` environment variable can store which profiles are needed.
-In this case, the profiled service will also be started during a regular `docker compose up` command.
+* `$ ./gray.sh -n` - disable
+* `$ ./gray.sh -r` - residential UI
+* `$ ./gray.sh -p` - Porsche UI
 
-To change the required profile:
+### Changing credentials
 
-1. Stop the main container
-2. Edit the `~/.bashrc` file and add, update or remove the `COMPOSE_PROFILES=...` line and save
-3. `$ source ~/.bashrc` to reload the profile
-4. Start the main container
+* `$ ./gray.sh -d <deviceId>` - set new DMP device ID
+* `$ ./gray.sh -a <apiKey>  ` - set new DMP API key
+
+### Updating dorian
+
+⚠ Always stop the main container first before updating.
+
+* `$ ./gray.sh -u` - updates Dorian
