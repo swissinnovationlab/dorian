@@ -168,7 +168,7 @@ vpn_up () {
 
 # switchology
 
-while getopts "a:cd:DigmMnpruvV?": opt; do
+while getopts "a:cd:DihmMnpruvV": opt; do
     case $opt in
     a) API_KEY="$OPTARG"
        set_api_key;;
@@ -178,6 +178,7 @@ while getopts "a:cd:DigmMnpruvV?": opt; do
        set_device_id;;
     D) install_docker;;
     i) install_dorian;;
+    h) usage;;
     m) main_down;;
     M) main_up;;
     n) unset UI
@@ -189,6 +190,5 @@ while getopts "a:cd:DigmMnpruvV?": opt; do
     u) update;;
     v) vpn_down;;
     V) vpn_up;;
-    ?) usage;;
     esac
 done
