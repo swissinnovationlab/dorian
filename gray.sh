@@ -119,7 +119,7 @@ update () {
     cd ~/dorian
     git restore *
     git pull
-    chmod +x *.sh
+    chmod +x gray.sh
     cp gray*.sh ~/
     cp *.yml ~/
     cd $RETURN_PATH
