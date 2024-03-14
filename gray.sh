@@ -54,6 +54,7 @@ stop_loytra () {
     if [ $IS_LOYTRA_AVAILABLE -eq 1 ]; then
         echo "-- Stopping loytra processes --"
         loytra disable devconn_vpn_client/handler
+        loytra disable devconn_vpn_client/client
         loytra disable devconn_client/router
         loytra disable pyzer/api_server
         loytra disable pyzer/entity_manager
