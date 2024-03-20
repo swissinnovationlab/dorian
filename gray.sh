@@ -167,8 +167,7 @@ vpn_up () {
 }
 
 # switchology
-
-while getopts "a:cd:DihmMnpruvV": opt; do
+while getopts "a::cd::DihmMnpruvV": opt; do
     case $opt in
     a) API_KEY="$OPTARG"
        set_api_key;;
