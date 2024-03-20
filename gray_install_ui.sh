@@ -57,3 +57,5 @@ chown -R $1:$1 /home/$1/.config
 
 systemctl enable slim
 systemctl start slim
+
+loginctl enable-linger $1
