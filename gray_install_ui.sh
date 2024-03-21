@@ -18,9 +18,6 @@ install_debian () {
     dpkg-reconfigure slim
 }
 
-setup_ui () {
-
-
 # Give me one ping, Vasily. One ping only.
 if [ $# != 1 ]; then
     echo -e "Usage: $0 <\$USER>\n"
