@@ -130,7 +130,7 @@ update () {
 
 install_docker () {
     chmod +x ./gray_install_docker.sh
-    ./gray_install_docker.sh
+    ./gray_install_docker.sh $USER
     if [ $? -ne 0 ]; then
         chmod -x ./gray_install_docker.sh
         exit 1
