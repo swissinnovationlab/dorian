@@ -13,7 +13,7 @@ install_arch () {
     systemctl enable docker.service
 
     # Add current user to group
-    gpasswd -a pyzeradmin docker
+    gpasswd -a $1 docker
 }
 
 install_debian () {
@@ -38,8 +38,8 @@ install_debian () {
 }
 
 # No arguments for you!
-if [ $# != 0 ]; then
-    echo -e "Usage: $0\n"
+if [ $# != 1 ]; then
+    echo -e "Usage: $0 <user>\n"
     exit 1
 fi
 
@@ -51,7 +51,7 @@ fi
 
 if [ $(grep ^NAME /etc/os-release | grep "Arch" | wc -l) -eq 1 ]; then
     echo "-- Docker: Arch detected --"
-    install_arch
+    install_arch $1
     echo "Please logout and login before continuing installation."
     exit 2
 elif [ $(grep ^NAME /etc/os-release | grep "Debian" | wc -l) -eq 1 ]; then
