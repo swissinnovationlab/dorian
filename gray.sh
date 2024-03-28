@@ -4,31 +4,31 @@
 DEVICE_ID=
 API_KEY=
 
-# UI selector
-UI=
-RESIDENTIAL="RESIDENTIAL"
-PORSCHE="PORSCHE"
+# profile selector
+PROFILE=
 
-# Runtime parameters
+# profile and UI
 
-set_ui () {
+function set_profile () {
     sed -i "/^export COMPOSE_PROFILES/d" ~/.bashrc
-    if [ ! -z $UI ]; then
-        if [ $UI == $RESIDENTIAL ]; then
-            echo "[UI:] Residential"
-            echo "export COMPOSE_PROFILES=residential" >> ~/.bashrc
-        elif [ $UI == $PORSCHE ]; then
-            echo "[UI:] Porsche"
-            echo "export COMPOSE_PROFILES=porsche" >> ~/.bashrc
-        fi
+    if [ ! -z $PROFILE ]; then
+        echo "[UI:] $PROFILE"
+        echo "COMPOSE_PROFILES=$PROFILE" > ~/.env
     else
-        echo "[UI:] n/a"
+        echo "[UI:] none"
+        rm ~/.env
     fi
-    source ~/.bashrc
-    unset UI
 }
 
-set_device_id () {
+function install_ui() {
+    chmod +x gray_install_ui.sh
+    ./gray_install_ui.sh $USER
+    chmod -x gray_install_ui.sh
+}
+
+# credentials
+
+function set_device_id () {
     touch ~/devconn.env
     if [ ! -z $DEVICE_ID ]; then
         sed -i "/^DMP_DEVICE_ID/d" ~/devconn.env
@@ -36,7 +36,7 @@ set_device_id () {
     fi
 }
 
-set_api_key () {
+function set_api_key () {
     touch ~/devconn.env
     if [ ! -z $API_KEY ]; then
         sed -i "/^DMP_API_KEY/d" ~/devconn.env
@@ -44,12 +44,16 @@ set_api_key () {
     fi
 }
 
-usage () {
+# Help
+
+function usage () {
     echo "Usage: $0" 1>&2
     exit 1
 }
 
-stop_loytra () {
+# Migration
+
+function stop_loytra () {
     IS_LOYTRA_AVAILABLE=$(ls ~/.local/bin/loytra | wc -l)
     if [ $IS_LOYTRA_AVAILABLE -eq 1 ]; then
         echo "-- Stopping loytra processes --"
@@ -63,7 +67,7 @@ stop_loytra () {
     fi
 }
 
-disable_loytra () {
+function disable_loytra () {
     IS_LOYTRA_PYTHON=$(grep "#!/" ~/.local/bin/loytra | grep python | wc -l)
     if [ $IS_LOYTRA_PYTHON -eq 1 ]; then
         mv ~/.local/bin/loytra ~/.local/bin/loytra-rip
@@ -71,7 +75,7 @@ disable_loytra () {
     fi
 }
 
-migrate_dmp () {
+function migrate_dmp () {
     echo "-- Migrating DMP parameters --"
     DEVICE_ID=$(grep device_ ~/.local/share/devconn_proxy_client/config.json | cut -d : -f2 | awk -F\" '{print $2}')
     API_KEY=$(grep api ~/.local/share/devconn_proxy_client/config.json | cut -d : -f2 | awk -F\" '{print $2}')
@@ -79,16 +83,16 @@ migrate_dmp () {
     set_api_key
 }
 
-migrate_ui () {
+function migrate_ui () {
     echo "-- Migrating UI installation --"
     IS_RESIDENTIAL_INSTALLED = $(ls .local/share | grep goxmler | wc -l)
     if [ $IS_RESIDENTIAL_INSTALLED -eq 1 ]; then
-        RESIDENTIAL=true
+        PROFILE=residential
         set_ui
     fi
 }
 
-migrate_data () {
+function migrate_data () {
     echo "-- Migrating data to docker volume --"
     DOCKER_VOLUME=$(grep -E "^volume" -A 5 docker-compose.yml | grep "name" | cut -d : -f2 | awk -F\" '{print $2}')
     docker volume create $DOCKER_VOLUME
@@ -98,14 +102,16 @@ migrate_data () {
     chmod -x ./gray_migrate_data.sh
 }
 
-install_dorian () {
+# Dorian core operations
+
+function install_dorian () {
     echo "= dorian installer ="
     echo "--------------------"
     vpn_up
     main_up
 }
 
-migrate () {
+function migrate () {
     echo "= loytra to dorian migrator ="
     echo "-----------------------------"
     stop_loytra
@@ -114,7 +120,7 @@ migrate () {
     migrate_data
 }
 
-update () {
+function update () {
     RETURN_PATH=$(pwd)
     cd ~/dorian
     git restore *
@@ -124,6 +130,19 @@ update () {
     cp *.yml ~/
     cd $RETURN_PATH
     unset -v RETURN_PATH
+}
+
+# VPN operations
+
+function install_vpn() {
+    IS_DEVCONN_FILE_OK=$(wc -l ~/devconn.env | cut -f1 -d' ')
+    if [ $IS_DEVCONN_FILE_OK -eq 2 ]; then
+        chmod +x gray_install_vpn.sh
+        ./gray_install_vpn.sh $USER
+        chmod -x gray_install_vpn.sh
+    else
+        echo "Unable to install VPN, no valid devconn.env"
+    fi
 }
 
 # Docker operations
@@ -149,45 +168,44 @@ main_up () {
     docker compose up --build -d
 }
 
-vpn_down () {
-    TUN_ADDR=$(ip addr | grep tun | grep scope | cut -f 6 -d " " | cut -f1-3 -d ".")
-    USER_ADDR=$(who am i | cut -f 2 -d "(" | cut -f1-3 -d ".")
-    if [ $TUN_ADDR == $USER_ADDR ]; then
-        echo "= VPN DOWN disabled, you're connected through VPN! ="
-        return
-    fi
+#vpn_down () {
+#    TUN_ADDR=$(ip addr | grep tun | grep scope | cut -f 6 -d " " | cut -f1-3 -d ".")
+#    USER_ADDR=$(who am i | cut -f 2 -d "(" | cut -f1-3 -d ".")
+#    if [ $TUN_ADDR == $USER_ADDR ]; then
+#        echo "= VPN DOWN disabled, you're connected through VPN! ="
+#        return
+#    fi
+#
+#    echo "-- VPN going down --"
+#    docker compose -f docker-compose-vpn.yml down
+#}
 
-    echo "-- VPN going down --"
-    docker compose -f docker-compose-vpn.yml down
-}
-
-vpn_up () {
-    echo "-- VPN going up --"
-    docker compose -f docker-compose-vpn.yml up --build -d
-}
+#vpn_up () {
+#    echo "-- VPN going up --"
+#    docker compose -f docker-compose-vpn.yml up --build -d
+#}
 
 # switchology
-while getopts "a:cd:DihmMnpruvV" opt; do
+while getopts "a:cd:DihmMp::uUV" opt; do
     case $opt in
     a) API_KEY="$OPTARG"
        set_api_key;;
-    c) migrate
-       install_dorian;;
+    c) migrate;;
     d) DEVICE_ID="$OPTARG"
        set_device_id;;
     D) install_docker;;
-    i) install_dorian;;
+    I) install_dorian;;
     h) usage;;
     m) main_down;;
     M) main_up;;
-    n) unset UI
-       set_ui;;
-    p) UI=$PORSCHE
-       set_ui;;
-    r) UI=$RESIDENTIAL
-       set_ui;;
+    p) if [ ! -z $UI ]; then
+           PROFILE="$OPTARG"
+       else
+           unset PROFILE
+       fi
+       set_profile;;
     u) update;;
-    v) vpn_down;;
-    V) vpn_up;;
+    U) install_ui;;
+    V) install_vpn;;
     esac
 done

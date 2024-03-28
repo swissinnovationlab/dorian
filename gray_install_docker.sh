@@ -2,11 +2,11 @@
 
 install_arch () {
     # Update repositories
-    pacman -Sy archlinux-keyring
+    pacman -Sy archlinux-keyring --needed
     pacman -Su
 
     # Install Docker
-    pacman -S docker docker-compose docker-buildx
+    pacman -S docker docker-compose docker-buildx --needed
 
     # Enable-start daemon
     systemctl start docker.service
@@ -37,7 +37,7 @@ install_debian () {
     apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
-# No arguments for you!
+# Give me one ping, Vasily. One ping only.
 if [ $# != 1 ]; then
     echo -e "Usage: $0 <user>\n"
     exit 1

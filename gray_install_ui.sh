@@ -2,11 +2,11 @@
 
 install_arch () {
     # Update repositories
-    pacman -Sy archlinux-keyring
+    pacman -Sy archlinux-keyring --needed
     pacman -Su
 
     # Install UI prerequisites
-    pacman -S xorg xorg-xinit i3 slim unclutter
+    pacman -S xorg xorg-xinit i3 slim unclutter --needed
 }
 
 install_debian () {
@@ -41,7 +41,7 @@ else
     exit 3
 fi
 
-    # Set up SLIM to autologin current user and to enable 
+# Set up SLIM to autologin current user and to enable 
 sed -i "s/^#default_user.*/default_user\t\t$1/1" /etc/slim.conf
 sed -i "s/^#auto_login.*/auto_login\t\tyes/1" /etc/slim.conf
 sed -i "s/^# sessionstart_cmd.*/sessionstart_cmd\t\t/usr/bin/xhost +local:" /etc/slim.conf
