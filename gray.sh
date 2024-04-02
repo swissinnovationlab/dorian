@@ -164,7 +164,6 @@ main_down () {
 
 main_up () {
     echo "-- Main container going up --"
-    source ~/.bashrc
     docker compose up --build -d
 }
 
