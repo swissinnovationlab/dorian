@@ -168,23 +168,6 @@ main_up () {
     docker compose up --build -d
 }
 
-#vpn_down () {
-#    TUN_ADDR=$(ip addr | grep tun | grep scope | cut -f 6 -d " " | cut -f1-3 -d ".")
-#    USER_ADDR=$(who am i | cut -f 2 -d "(" | cut -f1-3 -d ".")
-#    if [ $TUN_ADDR == $USER_ADDR ]; then
-#        echo "= VPN DOWN disabled, you're connected through VPN! ="
-#        return
-#    fi
-#
-#    echo "-- VPN going down --"
-#    docker compose -f docker-compose-vpn.yml down
-#}
-
-#vpn_up () {
-#    echo "-- VPN going up --"
-#    docker compose -f docker-compose-vpn.yml up --build -d
-#}
-
 # switchology
 while getopts "a:cd:DihmMp::uUV" opt; do
     case $opt in
