@@ -49,6 +49,8 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
+logictl enable-linger $1
+
 if [ $(grep ^NAME /etc/os-release | grep "Arch" | wc -l) -eq 1 ]; then
     echo "-- Docker: Arch detected --"
     install_arch $1
