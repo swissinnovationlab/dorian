@@ -168,11 +168,11 @@ main_up () {
 }
 
 # switchology
-while getopts "a:cd:DihmMp::uUV" opt; do
+while getopts "a:Cd:DihmMp::uUV" opt; do
     case $opt in
     a) API_KEY="$OPTARG"
        set_api_key;;
-    c) migrate;;
+    C) migrate;;
     d) DEVICE_ID="$OPTARG"
        set_device_id;;
     D) install_docker;;
