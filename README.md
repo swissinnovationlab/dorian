@@ -6,7 +6,7 @@
 
 ## Migration and installation instruction
 
-Please visit the Dorian/Gray confluence page for detailed instructions.
+Please visit the [Dorian/Gray Confluence page](https://swissinnolab.atlassian.net/wiki/spaces/PYZER/pages/2404319233/) for detailed instructions.
 
 ## Switch descriptions
 
