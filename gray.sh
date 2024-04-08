@@ -1,47 +1,31 @@
 #!/bin/bash
 
-# credentials
-DEVICE_ID=
-API_KEY=
+# credentials management
 
-# profile selector
-PROFILE=
+function set_device_id () {
+    touch ~/devconn.env
+    sed -i "/^DMP_DEVICE_ID/d" ~/devconn.env
+    echo "DMP_DEVICE_ID=$1" >> ~/devconn.env
+}
 
-# profile and UI
+function set_api_key () {
+    touch ~/devconn.env
+    sed -i "/^DMP_API_KEY/d" ~/devconn.env
+    echo "DMP_API_KEY=$1" >> ~/devconn.env
+}
+
+# UI and profile management
 
 function set_profile () {
     sed -i "/^export COMPOSE_PROFILES/d" ~/.bashrc
-    if [ ! -z $PROFILE ]; then
-        echo "[UI:] $PROFILE"
-        echo "COMPOSE_PROFILES=$PROFILE" > ~/.env
-    else
-        echo "[UI:] none"
-        rm ~/.env
-    fi
+    echo "[PROFILE:] $1"
+    echo "COMPOSE_PROFILES=$1" > ~/.env
 }
 
 function install_ui() {
     chmod +x gray_install_ui.sh
     ./gray_install_ui.sh $USER
     chmod -x gray_install_ui.sh
-}
-
-# credentials
-
-function set_device_id () {
-    touch ~/devconn.env
-    if [ ! -z $DEVICE_ID ]; then
-        sed -i "/^DMP_DEVICE_ID/d" ~/devconn.env
-        echo "DMP_DEVICE_ID=$DEVICE_ID" >> ~/devconn.env
-    fi
-}
-
-function set_api_key () {
-    touch ~/devconn.env
-    if [ ! -z $API_KEY ]; then
-        sed -i "/^DMP_API_KEY/d" ~/devconn.env
-        echo "DMP_API_KEY=$API_KEY" >> ~/devconn.env
-    fi
 }
 
 # Help
@@ -87,8 +71,7 @@ function migrate_ui () {
     echo "-- Migrating UI installation --"
     IS_RESIDENTIAL_INSTALLED = $(ls .local/share | grep goxmler | wc -l)
     if [ $IS_RESIDENTIAL_INSTALLED -eq 1 ]; then
-        PROFILE=residential
-        set_ui
+        set_ui "residential"
     fi
 }
 
@@ -168,24 +151,17 @@ main_up () {
 }
 
 # switchology
-while getopts "a:Cd:DihmMp::uUV" opt; do
+while getopts "a:Cd:DihmMp:uUV" opt; do
     case $opt in
-    a) API_KEY="$OPTARG"
-       set_api_key;;
+    a) set_api_key "$OPTARG";;
     C) migrate;;
-    d) DEVICE_ID="$OPTARG"
-       set_device_id;;
+    d) set_device_id "$OPTARG";;
     D) install_docker;;
     I) install_dorian;;
     h) usage;;
     m) main_down;;
     M) main_up;;
-    p) if [ ! -z $UI ]; then
-           PROFILE="$OPTARG"
-       else
-           unset PROFILE
-       fi
-       set_profile;;
+    p) set_profile "$OPTARG";;
     u) update;;
     U) install_ui;;
     V) install_vpn;;
