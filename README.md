@@ -14,7 +14,7 @@ Please visit the [Dorian/Gray Confluence page](https://swissinnolab.atlassian.ne
 |--------|----------|--------|
 | `-a`    | `<api key>`| Sets DMP API key.        |
 | `-d`    | `<device id>`| Sets DMP device ID.        |
-| `-p`    | `[profile]` | Set installation profile (UI). With no argument, disables UI. |
+| `-p`    | `<profile>` | Set installation profile (UI). `none` for no UI. |
 |--------|----------|--------|
 | `-C`    | | Converts `loytra` installation to `Dorian`. Use on old devices. |
 | `-D`    | | Installs Docker. Use everywhere. |
