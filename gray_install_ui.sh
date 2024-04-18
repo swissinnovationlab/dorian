@@ -44,8 +44,8 @@ fi
 # Set up SLIM to autologin current user and to enable 
 sed -i "s/^#default_user.*/default_user\t\t$1/1" /etc/slim.conf
 sed -i "s/^#auto_login.*/auto_login\t\tyes/1" /etc/slim.conf
-sed -i "s/^# sessionstart_cmd.*/sessionstart_cmd\t\t/usr/bin/xhost +local:" /etc/slim.conf
-sed -i "s/^#login_cmd.*/login_cmd\t\texec /bin/bash -login ~/.xinitrc %session" /etc/slim.conf
+sed -i "s/^# sessionstart_cmd.*/sessionstart_cmd\t\t/usr/bin/xhost +local:/1" /etc/slim.conf
+sed -i "s/^#login_cmd.*/login_cmd\t\texec /bin/bash -login ~/.xinitrc %session/1" /etc/slim.conf
 
 cp /home/$1/dorian/.xinitrc /home/$1/.xinitrc
 chown $1:$1 /home/$1/.xinitrc
