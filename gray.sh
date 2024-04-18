@@ -151,7 +151,7 @@ main_up () {
 }
 
 # switchology
-while getopts "a:Cd:DihmMp:uUV" opt; do
+while getopts "a:Cd:DIhmMp:uUV" opt; do
     case $opt in
     a) set_api_key "$OPTARG";;
     C) migrate;;
