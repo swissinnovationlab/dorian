@@ -21,6 +21,7 @@ function set_hostname() {
         NEW_HOSTNAME="dorian-$(CURRENT_DMP_ID)"
         ./gray_set_hostname.sh $NEW_HOSTNAME
     echo "Hostname set, please logout and login to see effect."
+    fi
 }
 
 # UI and profile management
