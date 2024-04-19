@@ -14,6 +14,7 @@ Please visit the [Dorian/Gray Confluence page](https://swissinnolab.atlassian.ne
 |--------|----------|--------|
 | `-a`    | `<api key>`| Sets DMP API key.        |
 | `-d`    | `<device id>`| Sets DMP device ID.        |
+| `-h`    | | Sets hostname to `dorian-<device id>`. Must be previously set using `-d` |
 | `-p`    | `<profile>` | Set installation profile (UI). `none` for no UI. |
 |--------|----------|--------|
 | `-C`    | | Converts `loytra` installation to `Dorian`. Use on old devices. |
@@ -24,4 +25,4 @@ Please visit the [Dorian/Gray Confluence page](https://swissinnolab.atlassian.ne
 |--------|----------|--------|
 | `-m`    |          | Stops all containers.       |
 | `-M`    |          | (Re)starts all containers.        |
-| `-u`    |          | Downloads updates. Does not restart containers after upload.        |
+| `-u`    |          | Downloads updates. Does not restart containers after download.        |
