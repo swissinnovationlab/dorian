@@ -14,6 +14,15 @@ function set_api_key () {
     echo "DMP_API_KEY=$1" >> ~/devconn.env
 }
 
+# hostname management
+function set_hostname() {
+    CURRENT_DMP_ID=$(grep DMP_DEVICE_ID devconn.env | cut -d'=' -f2)
+    if [ ! -z $CURRENT_DMP_ID ]; then
+        NEW_HOSTNAME="dorian-$(CURRENT_DMP_ID)"
+        ./gray_set_hostname.sh $NEW_HOSTNAME
+    echo "Hostname set, please logout and login to see effect."
+}
+
 # UI and profile management
 
 function set_profile () {
@@ -159,7 +168,7 @@ while getopts "a:Cd:DIhmMp:uUV" opt; do
     d) set_device_id "$OPTARG";;
     D) install_docker;;
     I) install_dorian;;
-    h) usage;;
+    h) set_hostname;;
     m) main_down;;
     M) main_up;;
     p) set_profile "$OPTARG";;
