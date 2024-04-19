@@ -90,6 +90,8 @@ function migrate_data () {
 function install_dorian () {
     echo "= dorian installer ="
     echo "--------------------"
+    DOCKER_VOLUME=$(grep -E "^volume" -A 5 docker-compose.yml | grep "name" | cut -d : -f2 | awk -F\" '{print $2}')
+    docker volume create $DOCKER_VOLUME
     main_up
 }
 
