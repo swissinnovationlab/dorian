@@ -90,7 +90,6 @@ function migrate_data () {
 function install_dorian () {
     echo "= dorian installer ="
     echo "--------------------"
-    vpn_up
     main_up
 }
 
