@@ -122,6 +122,7 @@ function update () {
     chmod +x gray.sh
     cp gray*.sh ~/
     cp *.yml ~/
+    cd ~/
 }
 
 function update_experimental () {
@@ -132,6 +133,7 @@ function update_experimental () {
     chmod +x gray.sh
     cp gray*.sh ~/
     cp *.yml ~/
+    cd ~/
 }
 
 
