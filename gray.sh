@@ -115,16 +115,25 @@ function migrate () {
 }
 
 function update () {
-    RETURN_PATH=$(pwd)
     cd ~/dorian
     git restore *
+    git checkout main
     git pull
     chmod +x gray.sh
     cp gray*.sh ~/
     cp *.yml ~/
-    cd $RETURN_PATH
-    unset -v RETURN_PATH
 }
+
+function update_experimental () {
+    cd ~/dorian
+    git restore *
+    git checkout develop
+    git pull
+    chmod +x gray.sh
+    cp gray*.sh ~/
+    cp *.yml ~/
+}
+
 
 # VPN operations
 
@@ -162,11 +171,12 @@ main_up () {
 }
 
 # switchology
-while getopts "a:Cd:DIhmMp:uUV" opt; do
+while getopts "a:Cd:eDIhmMp:uUV" opt; do
     case $opt in
     a) set_api_key "$OPTARG";;
     C) migrate;;
     d) set_device_id "$OPTARG";;
+    e) update_experimental;;
     D) install_docker;;
     I) install_dorian;;
     h) set_hostname;;
