@@ -24,6 +24,8 @@ services:
     restart: unless-stopped
     network_mode: "host"
     privileged: true
+    ports:
+      - "8090:8090"
     volumes:
       - /run/udev/control:/run/udev/control
       - dorian_local_share:/root/.local/share
