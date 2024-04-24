@@ -42,10 +42,10 @@ else
 fi
 
 # Set up SLIM to autologin current user and to enable session start
-echo -e "default_user\t\t$1" >> ~/slim.conf
-echo -e "auto_login\t\tyes" >> ~/slim.conf
-echo -e "sessionstart_cmd\t/usr/bin/xhost +local:" >> ~/slim.conf
-echo -e "login_cmd\t\texec /bin/bash/ -login ~/.xinitrc %session" >> ~/slim.conf
+echo -e "default_user\t\t$1" >> /etc/slim.conf
+echo -e "auto_login\t\tyes" >> /etc/slim.conf
+echo -e "sessionstart_cmd\t/usr/bin/xhost +local:" >> /etc/slim.conf
+echo -e "login_cmd\t\texec /bin/bash/ -login ~/.xinitrc %session" >> /etc/slim.conf
 
 cp /home/$1/dorian/.xinitrc /home/$1/.xinitrc
 chown $1:$1 /home/$1/.xinitrc
