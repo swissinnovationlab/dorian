@@ -20,7 +20,7 @@ function set_hostname() {
     if [ ! -z $CURRENT_DMP_ID ]; then
         NEW_HOSTNAME="dorian-$(CURRENT_DMP_ID)"
         ./gray_set_hostname.sh $NEW_HOSTNAME
-    echo "Hostname set, please logout and login to see effect."
+         echo "Hostname set, please logout and login to see effect."
     fi
 }
 
