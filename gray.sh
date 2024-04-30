@@ -18,7 +18,7 @@ function set_api_key () {
 function set_hostname() {
     CURRENT_DMP_ID=$(grep DMP_DEVICE_ID devconn.env | cut -d'=' -f2)
     if [ ! -z $CURRENT_DMP_ID ]; then
-        NEW_HOSTNAME="dorian-$(CURRENT_DMP_ID)"
+        NEW_HOSTNAME="dorian-$CURRENT_DMP_ID"
         ./gray_set_hostname.sh $NEW_HOSTNAME
          echo "Hostname set, please logout and login to see effect."
     fi
