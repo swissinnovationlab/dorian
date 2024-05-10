@@ -1,3 +1,5 @@
+#/bin/bash
+
 export DISPLAY=:0
 
 MAIN_DISPLAY=$(xrandr -q | grep -i " connected" | cut -f1 -d" ")
@@ -28,10 +30,6 @@ if [ -z $ORIENTATION ]; then
 fi
 set_tf_mtx $ORIENTATION
 
-xrandr > /dev/null
 xrandr --output "$MAIN_DISPLAY" --auto --rotate "$ORIENTATION"
 xinput set-prop "$MAIN_INPUT" --type=float "Coordinate Transformation Matrix" $COORD_TF_MTX
-xset -dpms
-xset s off
-unclutter --timeout 0.01 --hide-on-touch --ignore-buttons 4,5,6,7 --start-hidden --fork
-exec i3
+

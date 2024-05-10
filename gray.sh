@@ -15,12 +15,15 @@ function set_api_key () {
 }
 
 # hostname management
+
 function set_hostname() {
     CURRENT_DMP_ID=$(grep DMP_DEVICE_ID devconn.env | cut -d'=' -f2)
     if [ ! -z $CURRENT_DMP_ID ]; then
         NEW_HOSTNAME="dorian-$CURRENT_DMP_ID"
+        chmod +x gray_set_hostname.sh
         ./gray_set_hostname.sh $NEW_HOSTNAME
-         echo "Hostname set, please logout and login to see effect."
+        chmod -x gray_set_hostname.sh
+        echo "Hostname set, please logout and login to see effect."
     fi
 }
 
@@ -30,6 +33,37 @@ function set_profile () {
     sed -i "/^export COMPOSE_PROFILES/d" ~/.bashrc
     echo "[PROFILE:] $1"
     echo "COMPOSE_PROFILES=$1" > ~/.env
+}
+
+function set_orientation () {
+    case "$1" in
+        "inverted") ;&
+        "right")    ;&
+        "left")     ;&
+        "normal")     
+            echo "[UI ORIENTATION:] $1"
+            echo "ORIENTATION=$1" > ui.env
+            if [ $(grep COORD_TF_MTX ~/.xinitrc | wc -l) -eq 0 ]; then
+                # handle old version of .xinitrc without dynamic orientation
+                cp ~/dorian/.xinitrc ~/
+            fi 
+            if ! test -f ~/gray_set_orientation.sh; then
+                # handle missing orientation script
+                cp ~/dorian/gray_set_orientation.sh ~/
+                chmod +x ~/gray_set_orientation.sh
+                cd ~
+            fi
+            ./gray_set_orientation.sh
+            ;;
+        *)
+            usage_set_orientation
+            ;;
+    esac
+}
+
+function usage_set_orientation () {
+    echo "Usage: ${0##*/} -o [normal|left|right|inverted]"
+    exit 1
 }
 
 function install_ui() {
@@ -120,6 +154,7 @@ function update () {
     git checkout main
     git pull
     chmod +x gray.sh
+    chmod +x gray_set_orientation.sh
     cp gray*.sh ~/
     cp *.yml ~/
     cd ~/
@@ -131,6 +166,7 @@ function update_experimental () {
     git checkout develop
     git pull
     chmod +x gray.sh
+    chmod +x gray_set_orientation.sh
     cp gray*.sh ~/
     cp *.yml ~/
     cd ~/
@@ -173,7 +209,8 @@ main_up () {
 }
 
 # switchology
-while getopts "a:Cd:eDIhmMp:uUV" opt; do
+
+while getopts "a:Cd:eDIhmMo:p:uUV" opt; do
     case $opt in
     a) set_api_key "$OPTARG";;
     C) migrate;;
@@ -184,6 +221,7 @@ while getopts "a:Cd:eDIhmMp:uUV" opt; do
     h) set_hostname;;
     m) main_down;;
     M) main_up;;
+    o) set_orientation "$OPTARG";;
     p) set_profile "$OPTARG";;
     u) update;;
     U) install_ui;;
