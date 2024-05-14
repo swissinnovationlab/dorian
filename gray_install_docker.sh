@@ -54,7 +54,7 @@ loginctl enable-linger $1
 if [ $(grep ^NAME /etc/os-release | grep "Arch" | wc -l) -eq 1 ]; then
     echo "-- Docker: Arch detected --"
     install_arch $1
-    echo "Please logout and login before continuing installation."
+    echo "Please reboot before continuing installation."
     exit 2
 elif [ $(grep ^NAME /etc/os-release | grep "Debian" | wc -l) -eq 1 ]; then
     echo "-- Docker: Debian detected --"
