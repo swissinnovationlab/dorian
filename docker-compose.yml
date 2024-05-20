@@ -11,7 +11,7 @@ services:
     network_mode: "host"
 
   pyzer_api_server:
-    image: smartlockertec/pyzer_api_server:v1.2.4
+    image: smartlockertec/pyzer_api_server:v1.2.7
     container_name: pyzer_api_server
     restart: unless-stopped
     network_mode: "host"
@@ -19,7 +19,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyzer_entity_manager:
-    image: smartlockertec/pyzer_entity_manager:v1.2.4
+    image: smartlockertec/pyzer_entity_manager:v1.2.7
     container_name: pyzer_entity_manager
     restart: unless-stopped
     network_mode: "host"
@@ -37,7 +37,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   goxmler_app_residential:
-    image: smartlockertec/goxmler_app_residential:v1.0.3
+    image: smartlockertec/goxmler_app_residential:v1.0.6
     container_name: goxmler_app_residential
     restart: unless-stopped
     network_mode: "host"
@@ -51,7 +51,24 @@ services:
       - dorian_local_share:/root/.local/share
     devices:
       - "/dev/dri:/dev/dri"
-    profiles: [residential] 
+    profiles: [residential]
+
+  goxmler_app_item_storage:
+    image: smartlockertec/goxmler_app_item_storage:v0.9.9
+    container_name: goxmler_app_item_storage
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - REMOTE_IP=127.0.0.1
+      - DISPLAY=:0
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - dorian_local_share:/root/.local/share
+    devices:
+      - "/dev/dri:/dev/dri"
+    profiles: [item_storage] 
 
 volumes:
   dorian_local_share:
