@@ -29,7 +29,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyflexen_engine:
-    image: smartlockertec/pyflexen_engine:v1.2.5
+    image: smartlockertec/pyflexen_engine:v1.3.0
     container_name: pyflexen_engine
     restart: unless-stopped
     network_mode: "host"
