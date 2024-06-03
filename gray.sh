@@ -204,6 +204,8 @@ main_down () {
 main_up () {
     echo "-- Main container going up --"
     docker compose up --build -d
+    echo "-- Cleaning up old Docker images --"
+    docker image prune -af
 }
 
 # switchology
