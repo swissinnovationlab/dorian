@@ -26,5 +26,5 @@ Please visit the [Dorian/Gray Confluence page](https://swissinnolab.atlassian.ne
 |--------|----------|--------|
 | `-m`    |          | Stops all containers.       |
 | `-M`    |          | (Re)starts all containers.        |
-| `-u`    |          | Downloads updates from stable (main) branch. Does not restart containers after download.        |
-| `-e`    |          | Downloads updates from develop (experimental). Does not restart containers after download.        |
+| `-u`    |          | Downloads updates from stable (main) branch. Does not restart containers after download. Does not copy over `*.sh` files.       |
+| `-e`    |          | Downloads updates from develop (experimental). Does not restart containers after download. Does not copy over `*.sh` files. |
