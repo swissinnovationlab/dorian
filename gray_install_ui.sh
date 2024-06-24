@@ -6,7 +6,7 @@ install_arch () {
     pacman -Su
 
     # Install UI prerequisites
-    pacman -S xorg xorg-xinit i3 slim unclutter x11vnc --needed
+    pacman -S xorg xorg-xinit i3 slim unclutter x11vnc xdotool --needed
 }
 
 install_debian () {
@@ -14,7 +14,7 @@ install_debian () {
     apt update
 
     # Install UI prerequisites
-    apt install xorg xinit i3 slim unclutter x11vnc
+    apt install xorg xinit i3 slim unclutter x11vnc xdotool
     dpkg-reconfigure slim
 }
 
