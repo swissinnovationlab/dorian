@@ -155,7 +155,6 @@ function update () {
     git pull
     chmod +x gray.sh
     chmod +x gray_set_orientation.sh
-    cp gray*.sh ~/
     cp *.yml ~/
     cd ~/
 }
@@ -167,7 +166,6 @@ function update_experimental () {
     git pull
     chmod +x gray.sh
     chmod +x gray_set_orientation.sh
-    cp gray*.sh ~/
     cp *.yml ~/
     cd ~/
 }
@@ -206,6 +204,8 @@ main_down () {
 main_up () {
     echo "-- Main container going up --"
     docker compose up --build -d
+    echo "-- Cleaning up old Docker images --"
+    docker image prune -af
 }
 
 # switchology
