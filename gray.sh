@@ -167,7 +167,7 @@ function update_experimental () {
     chmod +x gray.sh
     chmod +x gray_set_orientation.sh
     cp *.yml ~/
-    cd ~/
+    cd ~/e
 }
 
 
@@ -204,8 +204,10 @@ main_down () {
 main_up () {
     echo "-- Main container going up --"
     docker compose up --build -d
-    echo "-- Cleaning up old Docker images --"
-    docker image prune -af
+    if [ $(docker ps | wc -l) -ne 1 ]; then
+        echo "-- Cleaning up old Docker images --"
+        docker image prune -af
+    fi
 }
 
 # switchology
