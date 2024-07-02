@@ -107,8 +107,8 @@ function migrate_dmp () {
     echo "-- Migrating DMP parameters --"
     DEVICE_ID=$(grep device_ ~/.local/share/devconn_proxy_client/config.json | cut -d : -f2 | awk -F\" '{print $2}')
     API_KEY=$(grep api ~/.local/share/devconn_proxy_client/config.json | cut -d : -f2 | awk -F\" '{print $2}')
-    set_device_id
-    set_api_key
+    set_device_id $DEVICE_ID
+    set_api_key $API_KEY
 }
 
 function migrate_ui () {
