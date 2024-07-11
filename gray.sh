@@ -167,7 +167,7 @@ function update_experimental () {
     chmod +x gray.sh
     chmod +x gray_set_orientation.sh
     cp *.yml ~/
-    cd ~/e
+    cd ~/
 }
 
 
