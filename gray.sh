@@ -206,7 +206,7 @@ main_up () {
     docker compose up --build -d
     if [ $(docker ps | wc -l) -ne 1 ]; then
         echo "-- Cleaning up old Docker images --"
-        docker image prune -af
+        # docker image prune -af
     fi
 }
 
