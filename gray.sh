@@ -204,10 +204,6 @@ main_down () {
 main_up () {
     echo "-- Main container going up --"
     docker compose up --build -d
-    if [ $(docker ps | wc -l) -ne 1 ]; then
-        echo "-- Cleaning up old Docker images --"
-        # docker image prune -af
-    fi
 }
 
 # switchology
