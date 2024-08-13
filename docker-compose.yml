@@ -12,7 +12,7 @@ services:
     network_mode: "host"
 
   pyzer_api_server:
-    image: smartlockertec/pyzer_api_server:v1.2.12
+    image: smartlockertec/pyzer_api_server:v1.2.17
     container_name: pyzer_api_server
     restart: unless-stopped
     network_mode: "host"
@@ -20,7 +20,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyzer_entity_manager:
-    image: smartlockertec/pyzer_entity_manager:v1.2.12
+    image: smartlockertec/pyzer_entity_manager:v1.2.17
     container_name: pyzer_entity_manager
     restart: unless-stopped
     network_mode: "host"
@@ -38,7 +38,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   goxmler_app_residential:
-    image: smartlockertec/goxmler_app_residential:v1.0.7
+    image: smartlockertec/goxmler_app_residential:v1.0.8
     container_name: goxmler_app_residential
     restart: unless-stopped
     network_mode: "host"
@@ -55,7 +55,7 @@ services:
     profiles: [residential]
 
   goxmler_app_item_storage:
-    image: smartlockertec/goxmler_app_item_storage:v1.0.0
+    image: smartlockertec/goxmler_app_item_storage:v1.0.1
     container_name: goxmler_app_item_storage
     restart: unless-stopped
     network_mode: "host"
