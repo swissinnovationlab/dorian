@@ -1,6 +1,6 @@
 services:
   devconn_connector:
-    image: smartlockertec/devconn_connector:v1.0.4
+    image: smartlockertec/devconn_connector:v1.0.5
     container_name: devconn_connector
     env_file:
       - devconn.env
