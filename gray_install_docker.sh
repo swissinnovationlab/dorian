@@ -11,9 +11,6 @@ install_arch () {
     # Enable-start daemon
     systemctl start docker.service
     systemctl enable docker.service
-
-    # Add current user to group
-    gpasswd -a $1 docker
 }
 
 install_debian () {
@@ -51,6 +48,9 @@ fi
 
 loginctl enable-linger $1
 
+# Add current user to group
+gpasswd -a $1 docker
+
 if [ $(grep ^NAME /etc/os-release | grep "Arch" | wc -l) -eq 1 ]; then
     echo "-- Docker: Arch detected --"
     install_arch $1
@@ -59,6 +59,7 @@ if [ $(grep ^NAME /etc/os-release | grep "Arch" | wc -l) -eq 1 ]; then
 elif [ $(grep ^NAME /etc/os-release | grep "Debian" | wc -l) -eq 1 ]; then
     echo "-- Docker: Debian detected --"
     install_debian
+    echo "Please logout and login before continuing installation."    
     exit 0
 else
     echo "-- Docker: distribution currently not supported --"
