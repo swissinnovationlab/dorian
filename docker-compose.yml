@@ -71,6 +71,23 @@ services:
       - "/dev/dri:/dev/dri"
     profiles: [item_storage] 
 
+goxmler_app_storage_locker:
+  image: smartlockertec/goxmler_app_storage_locker:v0.9.0
+  container_name: goxmler_app_storage_locker
+  restart: unless-stopped
+  network_mode: "host"
+  environment:
+    - REMOTE_IP=127.0.0.1
+    - DISPLAY=:0
+  volumes:
+    - type: bind
+      source: /tmp/.X11-unix
+      target: /tmp/.X11-unix
+    - dorian_local_share:/root/.local/share
+  devices:
+    - "/dev/dri:/dev/dri"
+  profiles: [storage_locker]
+
 volumes:
   dorian_local_share:
     external: true
