@@ -8,6 +8,9 @@ install_arch () {
     # Install Docker
     pacman -S docker docker-compose docker-buildx --needed
 
+    # Add current user to group
+    gpasswd -a $1 docker
+
     # Enable-start daemon
     systemctl start docker.service
     systemctl enable docker.service
@@ -32,6 +35,9 @@ install_debian () {
 
     # Install Docker
     apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    # Add current user to group
+    gpasswd -a $1 docker
 }
 
 # Give me one ping, Vasily. One ping only.
