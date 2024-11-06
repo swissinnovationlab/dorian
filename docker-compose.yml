@@ -38,7 +38,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   goxmler_app_residential:
-    image: smartlockertec/goxmler_app_residential:v1.0.8
+    image: smartlockertec/goxmler_app_residential:v1.1.1
     container_name: goxmler_app_residential
     restart: unless-stopped
     network_mode: "host"
