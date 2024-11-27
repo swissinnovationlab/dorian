@@ -72,7 +72,7 @@ services:
     profiles: [item_storage] 
 
   goxmler_app_storage_locker:
-    image: smartlockertec/goxmler_app_storage_locker:v0.10.0
+    image: smartlockertec/goxmler_app_storage_locker:v0.11.0
     container_name: goxmler_app_storage_locker
     restart: unless-stopped
     network_mode: "host"
