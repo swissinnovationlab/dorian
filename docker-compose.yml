@@ -38,7 +38,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   goxmler_app_residential:
-    image: smartlockertec/goxmler_app_residential:v1.1.1
+    image: smartlockertec/goxmler_app_residential:v1.1.2
     container_name: goxmler_app_residential
     restart: unless-stopped
     network_mode: "host"
@@ -106,7 +106,7 @@ services:
     profiles: [clever_kiosk]
   
   goxmler_app_click_and_collect:
-    image: smartlockertec/goxmler_app_click_and_collect:v0.1.0
+    image: smartlockertec/goxmler_app_click_and_collect:v0.1.1
     container_name: goxmler_app_click_and_collect
     restart: unless-stopped
     network_mode: "host"
