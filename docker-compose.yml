@@ -106,7 +106,7 @@ services:
     profiles: [clever_kiosk]
   
   goxmler_app_click_and_collect:
-    image: smartlockertec/goxmler_app_click_and_collect:v0.1.1
+    image: smartlockertec/goxmler_app_click_and_collect:v0.1.2
     container_name: goxmler_app_click_and_collect
     restart: unless-stopped
     network_mode: "host"
