@@ -89,7 +89,7 @@ services:
     profiles: [storage_locker]
 
   goxmler_app_clever_kiosk:
-    image: smartlockertec/goxmler_app_clever_kiosk:v0.9.0
+    image: smartlockertec/goxmler_app_clever_kiosk:v0.9.1
     container_name: goxmler_app_clever_kiosk
     restart: unless-stopped
     network_mode: "host"
