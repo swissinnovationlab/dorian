@@ -88,6 +88,41 @@ services:
       - "/dev/dri:/dev/dri"
     profiles: [storage_locker]
 
+  goxmler_app_clever_kiosk:
+    image: smartlockertec/goxmler_app_clever_kiosk:v0.9.2
+    container_name: goxmler_app_clever_kiosk
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - REMOTE_IP=127.0.0.1
+      - DISPLAY=:0
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - dorian_local_share:/root/.local/share
+    devices:
+      - "/dev/dri:/dev/dri"
+    profiles: [clever_kiosk]
+  
+  goxmler_app_click_and_collect:
+    image: smartlockertec/goxmler_app_click_and_collect:v0.3.1
+    container_name: goxmler_app_click_and_collect
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - REMOTE_IP=127.0.0.1
+      - DISPLAY=:0
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - dorian_local_share:/root/.local/share
+    devices:
+      - "/dev/dri:/dev/dri"
+    profiles: [click_and_collect]
+
+
 volumes:
   dorian_local_share:
     external: true
