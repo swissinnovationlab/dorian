@@ -27,7 +27,6 @@ services:
     privileged: true
     volumes:
       - /run/udev/control:/run/udev/control
-
       - dorian_local_share:/root/.local/share
 
   pyflexen_engine:
@@ -56,7 +55,7 @@ services:
     profiles: [residential]
 
   goxmler_app_item_storage:
-    image: smartlockertec/goxmler_app_item_storage:v2.0.0
+    image: smartlockertec/goxmler_app_item_storage:v2.0.1
     container_name: goxmler_app_item_storage
     restart: unless-stopped
     network_mode: "host"
