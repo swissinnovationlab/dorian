@@ -20,7 +20,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyzer_entity_manager:
-    image: smartlockertec/pyzer_entity_manager:v1.3.4
+    image: smartlockertec/pyzer_entity_manager:v1.3.5
     container_name: pyzer_entity_manager
     restart: unless-stopped
     network_mode: "host"
@@ -30,7 +30,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyflexen_engine:
-    image: smartlockertec/pyflexen_engine:v1.7.0
+    image: smartlockertec/pyflexen_engine:v1.7.1
     container_name: pyflexen_engine
     restart: unless-stopped
     network_mode: "host"
