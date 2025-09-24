@@ -122,6 +122,23 @@ services:
       - "/dev/dri:/dev/dri"
     profiles: [click_and_collect]
 
+  goxmler_app_office_locker:
+    image: smartlockertec/goxmler_app_office_locker:v0.1.0
+    container_name: goxmler_app_office_locker
+    restart: unless-stopped
+    network_mode: "host"
+    environment:
+      - REMOTE_IP=127.0.0.1
+      - DISPLAY=:0
+    volumes:
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - dorian_local_share:/root/.local/share
+    devices:
+      - "/dev/dri:/dev/dri"
+    profiles: [office_locker]
+
 volumes:
   dorian_local_share:
     external: true
