@@ -55,7 +55,7 @@ services:
     profiles: [residential]
 
   goxmler_app_item_storage:
-    image: smartlockertec/goxmler_app_item_storage:v2.0.5
+    image: smartlockertec/goxmler_app_item_storage:v2.0.6
     container_name: goxmler_app_item_storage
     restart: unless-stopped
     network_mode: "host"
