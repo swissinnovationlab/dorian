@@ -1,6 +1,6 @@
 services:
   devconn_connector:
-    image: smartlockertec/devconn_connector:v1.2.0
+    image: smartlockertec/devconn_connector:v1.3.0
     container_name: devconn_connector
     env_file:
       - devconn.env
@@ -12,7 +12,7 @@ services:
     network_mode: "host"
 
   pyzer_api_server:
-    image: smartlockertec/pyzer_api_server:v1.5.0
+    image: smartlockertec/pyzer_api_server:v1.6.0
     container_name: pyzer_api_server
     restart: unless-stopped
     network_mode: "host"
@@ -20,7 +20,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyzer_entity_manager:
-    image: smartlockertec/pyzer_entity_manager:v1.5.0
+    image: smartlockertec/pyzer_entity_manager:v1.6.0
     container_name: pyzer_entity_manager
     restart: unless-stopped
     network_mode: "host"
@@ -30,7 +30,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyflexen_engine:
-    image: smartlockertec/pyflexen_engine:v1.7.2
+    image: smartlockertec/pyflexen_engine:v1.8.0
     container_name: pyflexen_engine
     restart: unless-stopped
     network_mode: "host"
