@@ -20,6 +20,6 @@ read
 VERSION="$1"
 MESSAGE="🧪 RELEASE – Dorian $VERSION
 Date: $(date)
-GIT: $GIT_URL
+GIT: $GIT_URL"
 
 jq -n --arg username "release_bot" --arg content "$MESSAGE" '{username:$username, content:$content}' | curl -sS -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL"
