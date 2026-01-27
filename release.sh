@@ -10,7 +10,6 @@ VERSION=$1
 
 git tag -a $VERSION -m "$VERSION"
 git push origin $VERSION
-docker login
 
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/1429742263109419081/E_LZB4dV9yO1F3E-SaLFn2okYcbgRTKB7YrGWKqnpLaCVgKSgYSG_M2ODbeXbo9mz0Al
 GIT_URL=https://github.com/swissinnovationlab/dorian/releases/tag/$VERSION
