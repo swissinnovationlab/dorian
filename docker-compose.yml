@@ -2,7 +2,7 @@ name: dorian
 
 services:
   devconn_connector:
-    image: smartlockertec/devconn_connector:v1.6.0
+    image: smartlockertec/devconn_connector:v1.7.0
     container_name: devconn_connector
     env_file:
       - devconn.env
@@ -10,8 +10,11 @@ services:
       CFG_TELEMETRY_PERIOD: 15
       CFG_CONNECTION_INTERMITTENT: false
       ERL_MAX_PORTS: 1024
+      TRIGGER_SYSTEM_CRON_DIR: /tmp/
     restart: unless-stopped
     network_mode: "host"
+    volumes:
+      - /tmp:/tmp
 
   pyzer_api_server:
     image: smartlockertec/pyzer_api_server:v1.7.1
