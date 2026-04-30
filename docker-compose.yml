@@ -1,5 +1,3 @@
-name: dorian
-
 services:
   devconn_connector:
     image: smartlockertec/devconn_connector:v1.8.0
