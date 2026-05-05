@@ -144,7 +144,7 @@ services:
     profiles: [office_locker]
 
   dorian_logger:
-    image: smartlockertec/docker_logger:v0.1.0
+    image: smartlockertec/dorian_logger:v0.1.0
     container_name: dorian_logger
     restart: unless-stopped
     environment:
