@@ -1,5 +1,3 @@
-name: dorian
-
 services:
   devconn_connector:
     image: smartlockertec/devconn_connector:v1.8.3
@@ -145,20 +143,7 @@ services:
       - "/dev/dri:/dev/dri"
     profiles: [office_locker]
 
-  dorian_logger:
-    image: smartlockertec/dorian_logger:v0.1.0
-    container_name: dorian_logger
-    restart: unless-stopped
-    environment:
-      VECTOR_LOG: info
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /run/systemd/journal/socket:/run/systemd/journal/socket
-      - dorian_logger_data:/var/lib/vector
-
 volumes:
   dorian_local_share:
     external: true
     name: "dorian_local_share"
-  dorian_logger_data:
-    name: "dorian_logger_data"
