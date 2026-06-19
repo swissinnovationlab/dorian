@@ -16,7 +16,7 @@ services:
       - /tmp:/tmp
 
   pyzer_api_server:
-    image: smartlockertec/pyzer_api_server:v1.9.1
+    image: smartlockertec/pyzer_api_server:v1.9.2
     container_name: pyzer_api_server
     restart: unless-stopped
     network_mode: "host"
@@ -24,7 +24,7 @@ services:
       - dorian_local_share:/root/.local/share
 
   pyzer_entity_manager:
-    image: smartlockertec/pyzer_entity_manager:v1.9.1
+    image: smartlockertec/pyzer_entity_manager:v1.9.2
     container_name: pyzer_entity_manager
     restart: unless-stopped
     network_mode: "host"
