@@ -163,7 +163,7 @@ services:
     environment:
       DISPLAY: ":0"
       FPS: "5"
-      RESOLUTION: "1024x768"
+      RESOLUTION: "768x1024"
       RECORD_X: "0"
       RECORD_Y: "0"
       IDLE_TIMEOUT: "10"
