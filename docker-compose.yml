@@ -156,6 +156,32 @@ services:
     volumes:
       - '/:/host:ro,rslave'
 
+  dorian_screen_recorder:
+    image: smartlockertec/dorian_screen_recorder:v0.1.0
+    container_name: dorian_screen_recorder
+    restart: unless-stopped
+    environment:
+      DISPLAY: ":0"
+      FPS: "5"
+      RESOLUTION: "1024x768"
+      RECORD_X: "0"
+      RECORD_Y: "0"
+      IDLE_TIMEOUT: "10"
+      MAX_VIDEO_DURATION: "300"
+      SHOW_TOUCHES: "true"
+      TOUCH_RADIUS: "25"
+      TOUCH_DURATION_MS: "500"
+      TOUCH_FADE_MS: "200"
+      VIDEO_CODEC: "libx264"
+      CRF: "28"
+      PRESET: "veryfast"
+      OUTPUT_DIR: "/recordings"
+      RETENTION_DAYS: "14"
+      CLEANUP_INTERVAL_HOURS: "12"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./recordings:/recordings
+
 volumes:
   dorian_local_share:
     external: true
