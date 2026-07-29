@@ -157,13 +157,13 @@ services:
       - '/:/host:ro,rslave'
 
   dorian_screen_recorder:
-    image: smartlockertec/dorian_screen_recorder:v0.1.0
+    image: smartlockertec/dorian_screen_recorder:v0.1.1
     container_name: dorian_screen_recorder
     restart: unless-stopped
     environment:
       DISPLAY: ":0"
       FPS: "5"
-      RESOLUTION: "768x1024"
+      RESOLUTION: "auto"
       RECORD_X: "0"
       RECORD_Y: "0"
       IDLE_TIMEOUT: "10"
