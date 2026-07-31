@@ -51,7 +51,8 @@ services:
     environment:
       - REMOTE_IP=127.0.0.1
       - DISPLAY=:0
-      - REMOTE_CONTROL=true
+      - REMOTE_CONTROL_ENABLED=true
+      - REMOTE_CONTROL_PORT=9080
     volumes:
       - type: bind
         source: /tmp/.X11-unix
