@@ -156,6 +156,23 @@ services:
     volumes:
       - '/:/host:ro,rslave'
 
+  darac:
+    image: smartlockertec/darac:v0.1.5
+    container_name: darac
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - devconn.env
+    environment:
+      PYZER_API_HOST: 127.0.0.1
+      PYZER_API_PORT: 8008
+      PORT_EMULATOR_HOST: 127.0.0.1
+      PORT_EMULATOR_PORT: 8338
+      PYFLEXEN_HOST: 127.0.0.1
+      PYFLEXEN_PORT: 8337
+      GOXMLER_UI_EXTERNAL_CONTROL_HOST: 127.0.0.1
+      GOXMLER_UI_EXTERNAL_CONTROL_PORT: 9080
+
 volumes:
   dorian_local_share:
     external: true
