@@ -15,6 +15,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /tmp:/tmp
 
+  devconn_event_tracker:
+    image: smartlockertec/devconn_event_tracker:v0.1.1
+    container_name: devconn_event_tracker
+    restart: unless-stopped
+    network_mode: "host"
+    env_file:
+      - devconn.env
+    volumes:
+      - darac_event_tracker_data:/data
+
   pyzer_api_server:
     image: smartlockertec/pyzer_api_server:v1.10.0
     container_name: pyzer_api_server
@@ -51,6 +61,8 @@ services:
     environment:
       - REMOTE_IP=127.0.0.1
       - DISPLAY=:0
+      - REMOTE_CONTROL_ENABLED=true
+      - REMOTE_CONTROL_PORT=9080
     volumes:
       - type: bind
         source: /tmp/.X11-unix
@@ -156,24 +168,8 @@ services:
     volumes:
       - '/:/host:ro,rslave'
 
-  darac:
-    image: smartlockertec/darac:v0.1.5
-    container_name: darac
-    restart: unless-stopped
-    network_mode: host
-    env_file:
-      - devconn.env
-    environment:
-      PYZER_API_HOST: 127.0.0.1
-      PYZER_API_PORT: 8008
-      PORT_EMULATOR_HOST: 127.0.0.1
-      PORT_EMULATOR_PORT: 8338
-      PYFLEXEN_HOST: 127.0.0.1
-      PYFLEXEN_PORT: 8337
-      GOXMLER_UI_EXTERNAL_CONTROL_HOST: 127.0.0.1
-      GOXMLER_UI_EXTERNAL_CONTROL_PORT: 9080
-
 volumes:
   dorian_local_share:
     external: true
     name: "dorian_local_share"
+  darac_event_tracker_data:
