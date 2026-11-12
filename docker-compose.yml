@@ -15,6 +15,16 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /tmp:/tmp
 
+  devconn_event_tracker:
+    image: smartlockertec/devconn_event_tracker:v0.1.1
+    container_name: devconn_event_tracker
+    restart: unless-stopped
+    network_mode: "host"
+    env_file:
+      - devconn.env
+    volumes:
+      - darac_event_tracker_data:/data
+
   pyzer_api_server:
     image: smartlockertec/pyzer_api_server:v1.10.0
     container_name: pyzer_api_server
@@ -188,3 +198,4 @@ volumes:
   dorian_local_share:
     external: true
     name: "dorian_local_share"
+  darac_event_tracker_data:
